@@ -112,12 +112,12 @@ port_exist_check() {
 bbr_install() {
     [ -f "tcp.sh" ] && rm -rf ./tcp.sh
     wget -O tcp.sh --no-check-certificate "https://raw.githubusercontent.com/ylx2016/Linux-NetSpeed/master/tcp.sh" && chmod +x tcp.sh && ./tcp.sh
-
 }
 
 user_set() {
-	user="10010"
-	passwd="10010"
+#	user="10010"
+#	passwd="10010"
+  echo "not passwd"
 }
 
 install_ss5() {
@@ -167,7 +167,7 @@ cat <<EOF > /etc/socks/config.yaml
             "port": "$port",
             "protocol": "socks",
             "settings": {
-                "auth": "password",
+                "auth": "noauth",
                 "accounts": [
                     {
                         "user": "$user",
@@ -295,4 +295,41 @@ menu() {
 }
 
 
-menu
+# 设置最大尝试次数
+# 获取第一个参数
+clientIp=$1
+# 获取第二个参数
+instanceName=$2
+echo "clientIp = : $clientIp"
+echo "instanceName = : $instanceName"
+
+MAX_ATTEMPTS=3
+CURRENT_ATTEMPT=0
+callback() {
+    # 增加当前尝试次数
+    ((CURRENT_ATTEMPT++))
+
+    # 检查当前尝试次数是否超过最大尝试次数
+    if [ $CURRENT_ATTEMPT -gt $MAX_ATTEMPTS ]; then
+        echo "Maximum number of attempts reached. Exiting."
+        exit 1
+    fi
+    # 调用接口
+    response=$(curl -s "http://${clientIp}:8000/amazon/api/aws/ip/callback/${instanceName}")
+        # 清理两端空白
+    response_clean=$(echo "$response" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+    # 检查接口返回值是否为success
+    if [[ "$response_clean" = "success" ]]; then
+        echo "Callback successful. Script execution completed."
+        exit 0
+    else
+        echo "Attempt $CURRENT_ATTEMPT: Callback not successful. Retrying in 5 minutes..."
+        sleep 300  # 等待5分钟再次尝试
+        # 重新调用回调方法
+        callback
+    fi
+}
+
+
+#menu
+callback
