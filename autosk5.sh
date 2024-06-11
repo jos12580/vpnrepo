@@ -115,9 +115,8 @@ bbr_install() {
 }
 
 user_set() {
-#	user="10010"
-#	passwd="10010"
-  echo "not passwd"
+	user="10010"
+	passwd="10010"
 }
 
 install_ss5() {
@@ -168,6 +167,12 @@ cat <<EOF > /etc/socks/config.yaml
             "protocol": "socks",
             "settings": {
                 "auth": "noauth",
+                "accounts": [
+                    {
+                        "user": "$user",
+                        "pass": "$passwd"
+                    }
+                ],
                 "udp": true
             },
             "streamSettings": {
