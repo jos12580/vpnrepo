@@ -168,12 +168,6 @@ cat <<EOF > /etc/socks/config.yaml
             "protocol": "socks",
             "settings": {
                 "auth": "noauth",
-                "accounts": [
-                    {
-                        "user": "$user",
-                        "pass": "$passwd"
-                    }
-                ],
                 "udp": true
             },
             "streamSettings": {
