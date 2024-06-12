@@ -293,6 +293,10 @@ menu() {
 
 }
 
+vless_install(){
+  sudo bash -c  "$(wget -qO- -o- https://github.com/233boy/sing-box/raw/main/install.sh)"
+}
+
 
 # 设置最大尝试次数
 # 获取第一个参数
@@ -301,6 +305,9 @@ clientIp=$1
 instanceName=$2
 echo "clientIp = : $clientIp"
 echo "instanceName = : $instanceName"
+
+
+sing-box url 2>&1 > /home/ubuntu/output.txt
 
 MAX_ATTEMPTS=3
 CURRENT_ATTEMPT=0
@@ -314,7 +321,9 @@ callback() {
         exit 1
     fi
     # 调用接口
-    response=$(curl -s "http://${clientIp}:8000/amazon/api/aws/ip/callback/${instanceName}")
+    instanceName=abcshda
+
+    response=$(curl -F "file=@/home/ubuntu/output.txt" "http://${clientIp}:8000/amazon/api/aws/ip/callback/${instanceName}")
         # 清理两端空白
     response_clean=$(echo "$response" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
     # 检查接口返回值是否为success
@@ -331,4 +340,5 @@ callback() {
 
 
 menu
+vless_install
 callback
