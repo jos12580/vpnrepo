@@ -307,19 +307,19 @@ echo "clientIp = : $clientIp"
 echo "instanceName = : $instanceName"
 
 
-sudo sing-box url 2>&1 > /home/ubuntu/output.txt
+
 
 MAX_ATTEMPTS=3
 CURRENT_ATTEMPT=0
 callback() {
     # 增加当前尝试次数
     ((CURRENT_ATTEMPT++))
-
     # 检查当前尝试次数是否超过最大尝试次数
     if [ $CURRENT_ATTEMPT -gt $MAX_ATTEMPTS ]; then
         echo "Maximum number of attempts reached. Exiting."
         exit 1
     fi
+    sing-box url 2>&1 > /home/ubuntu/output.txt
     # 调用接口
     response=$(curl -F "file=@/home/ubuntu/output.txt" "http://${clientIp}:8000/amazon/api/aws/ip/callback/${instanceName}")
         # 清理两端空白
