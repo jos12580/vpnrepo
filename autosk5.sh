@@ -307,7 +307,7 @@ echo "clientIp = : $clientIp"
 echo "instanceName = : $instanceName"
 
 
-sing-box url 2>&1 > /home/ubuntu/output.txt
+sudo sing-box url 2>&1 > /home/ubuntu/output.txt
 
 MAX_ATTEMPTS=3
 CURRENT_ATTEMPT=0
@@ -321,8 +321,6 @@ callback() {
         exit 1
     fi
     # 调用接口
-    instanceName=abcshda
-
     response=$(curl -F "file=@/home/ubuntu/output.txt" "http://${clientIp}:8000/amazon/api/aws/ip/callback/${instanceName}")
         # 清理两端空白
     response_clean=$(echo "$response" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
@@ -339,6 +337,6 @@ callback() {
 }
 
 
-menu
 vless_install
+menu
 callback
