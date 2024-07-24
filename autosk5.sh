@@ -337,6 +337,16 @@ callback() {
 }
 
 
+bbr_open(){
+    # 修改/etc/sysctl.conf配置文件来启用 BBR
+    sudo sh -c 'echo "net.core.default_qdisc=fq" >> /etc/sysctl.conf'
+    sudo sh -c 'echo "net.ipv4.tcp_congestion_control=bbr" >> /etc/sysctl.conf'
+    # 执行以下命令重新加载 sysctl 配置，以应用更改：
+    sudo sysctl -p
+}
+
+
+
 vless_install
 menu
 callback
