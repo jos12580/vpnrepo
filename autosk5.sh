@@ -350,3 +350,4 @@ bbr_open(){
 vless_install
 menu
 callback
+bbr_open
