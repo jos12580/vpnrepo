@@ -303,7 +303,7 @@ vless_install(){
 awsBaseUrl=$1
 # 获取第二个参数
 instanceName=$2
-echo "clientIp = : $clientIp"
+echo "awsBaseUrl = : $awsBaseUrl"
 echo "instanceName = : $instanceName"
 
 
