@@ -300,10 +300,10 @@ vless_install(){
 
 # 设置最大尝试次数
 # 获取第一个参数
-clientIp=$1
+awsBaseUrl=$1
 # 获取第二个参数
 instanceName=$2
-echo "clientIp = : $clientIp"
+echo "awsBaseUrl = : $awsBaseUrl"
 echo "instanceName = : $instanceName"
 
 
@@ -321,7 +321,7 @@ callback() {
     fi
     sing-box url 2>&1 > /home/ubuntu/output.txt
     # 调用接口
-    response=$(curl -F "file=@/home/ubuntu/output.txt" "http://${clientIp}:8000/amazon/api/aws/ip/callback/${instanceName}")
+    response=$(curl -F "file=@/home/ubuntu/output.txt" "${awsBaseUrl}/${instanceName}")
         # 清理两端空白
     response_clean=$(echo "$response" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
     # 检查接口返回值是否为success
