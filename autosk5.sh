@@ -321,12 +321,12 @@ callback() {
     fi
     sing-box url 2>&1 > /home/ubuntu/output.txt
     # 调用接口
-    response=$(curl -F "file=@/home/ubuntu/output.txt" "${awsBaseUrl}/${instanceName}")
+    response=$(curl "${awsBaseUrl}/${instanceName}")
         # 清理两端空白
     response_clean=$(echo "$response" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
     echo " Response received - $response_clean" >> home/ubuntu/log.txt
     # 检查接口返回值是否为success
-    if [[ "$response_clean" = "success" ]]; then
+    if [[ "$response_clean" = "true" ]]; then
         echo "Callback successful. Script execution completed."
         exit 0
     else
