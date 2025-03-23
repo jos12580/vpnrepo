@@ -324,7 +324,7 @@ callback() {
     response=$(curl "${awsBaseUrl}/${instanceName}")
         # 清理两端空白
     response_clean=$(echo "$response" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
-    echo " Response received - $response_clean" >> home/ubuntu/log.txt
+    echo " Response received - $response_clean" >> /home/ubuntu/log.txt
     # 检查接口返回值是否为success
     if [[ "$response_clean" = "true" ]]; then
         echo "Callback successful. Script execution completed."
